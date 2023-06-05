@@ -64,7 +64,7 @@ document.getElementById('investmentForm').addEventListener('submit', function(ev
 
     // First year is special because it has no gain
     dataAccumulation[0] = initialInvestment.toFixed(2);
-    dataGain[0] = 0;
+    dataGain[0] = "0";
     dataAddition[0] = firstAnnualAddition.toFixed(2);    
 
     // Calculate the initial, gain and additional investment for each working year
@@ -152,10 +152,10 @@ document.getElementById('investmentForm').addEventListener('submit', function(ev
         var row = document.createElement('tr');
         var cells = [
             labels[rowIndex],
-            dataAccumulation[rowIndex],
-            dataGain[rowIndex],
-            dataAddition[rowIndex],
-            dataWithdrawal[rowIndex],
+            dataAccumulation[rowIndex].replace(/\B(?=(\d{3})+(?!\d))/g, ","),
+            dataGain[rowIndex].replace(/\B(?=(\d{3})+(?!\d))/g, ","),
+            dataAddition[rowIndex] !== undefined ? dataAddition[rowIndex].replace(/\B(?=(\d{3})+(?!\d))/g, ",") : '',
+            dataWithdrawal[rowIndex].replace(/\B(?=(\d{3})+(?!\d))/g, ","),
         ];
         for (var cellIndex = 0; cellIndex < cells.length; cellIndex++) {
             var cell = document.createElement('td');
