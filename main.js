@@ -9,8 +9,9 @@ document.getElementById('investmentForm').addEventListener('submit', function(ev
     var annualExpense = Number(document.getElementById('annualExpense').value);
     var inflationRate = Number(document.getElementById('inflationRate').value);
     var retirementYears = Number(document.getElementById('retirementYears').value);
+    var startingYear = Number(document.getElementById('startingYear').value);
     var firstAnnualAddition = 0;
-    
+
     // Calculate gains over the specified number of years
     var labels = [];
     var dataAccumulation = [];
@@ -30,13 +31,13 @@ document.getElementById('investmentForm').addEventListener('submit', function(ev
             // Before retirement, withdraw 0
             dataWithdrawal.push("0");
         } else { // After retirement
-            // Withdrawal money every year after retirement 
+            // Withdrawal money every year after retirement
             annualExpense *= (1 + (inflationRate / 100));
             dataWithdrawal.push((-1 * annualExpense).toFixed(2));
         }
-        labels.push('Year ' + year);
+        labels.push('Year ' + (year + startingYear - 1));
     }
-    
+
     // In the last year, withdraw all the remaining money. Also, every year after retirement, there is still interest gain.
     for (let year = years + retirementYears - 2; year >= years; year--) {
         dataAccumulation[year] = ((dataAccumulation[year+1] / (1 + (interestRate / 100))) - Number(dataWithdrawal[year])).toFixed(2);
@@ -44,8 +45,8 @@ document.getElementById('investmentForm').addEventListener('submit', function(ev
     }
 
     // Target amount is equal to the initial sum of the 1st year after retirement
-    targetAmount = Number(dataAccumulation[years]);    
-        
+    targetAmount = Number(dataAccumulation[years]);
+
     // Calculate annual addition to reach target amount
     // The total investment plus the total gain should be equal to the target amount
     // Y: annual investment
@@ -65,7 +66,7 @@ document.getElementById('investmentForm').addEventListener('submit', function(ev
     // First year is special because it has no gain
     dataAccumulation[0] = initialInvestment.toFixed(2);
     dataGain[0] = "0";
-    dataAddition[0] = firstAnnualAddition.toFixed(2);    
+    dataAddition[0] = firstAnnualAddition.toFixed(2);
 
     // Calculate the initial, gain and additional investment for each working year
     for (let year = 1; year < years ; year++) {
